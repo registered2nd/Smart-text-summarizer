@@ -1,0 +1,11 @@
+{
+  "epub_file": "/home/agentcode/text summaries/books/Neal Stephenson - Quicksilver (The Baroque Cycle, Vol. 1) (2003).epub",
+  "book_title": "Quicksilver - Book One",
+  "book_author": "Neal Stephenson",
+  "section_name": "quicksilver_book_one",
+  "start_markers": ["Boston Common", "OCTOBER 12, 1713", "ENOCH ROUNDS THE CORNER"],
+  "end_markers": ["BOOK TWO", "King of the Vagabonds"],
+  "chunk_size": 2000,
+  "output_dir": "output/book1_reprocessed",
+  "verbose": true
+}
