@@ -536,9 +536,9 @@ Eliza concludes her encrypted letter by revealing the true father of her healthy
 
 ## Summary 76: Words 150001-152000
 
-*Word count: 142*
+*Word count: 157*
 
-Daniel Waterhouse, gravely ill with kidney stones, receives a visit from Samuel Pepys in October 1689. Pepys arrives with librarian assistants to purchase Daniel's books as he prepares for Massachusetts. Despite Daniel's deteriorating condition, Pepys enthusiastically advocates for surgical removal of the stone, displaying his own removed stone and citing thirty years of added life. Daniel refuses the risky procedure, preferring death to the surgery that killed his mentor Wilkins. Pepys reveals he's organizing a farewell party at the Royal Society, refusing to accept Daniel's protests about his weakness. Daniel is carried in a sedan chair to Bedlam, where Hooke has prepared a gathering. The party includes Newton, Fatio, Huygens, Boyle, Wren, and other luminaries. Roger Comstock delivers a humorous toast about pure alcohol that won't trouble the kidneys. As the evening progresses, Daniel gradually loses consciousness from the strong spirits, dreaming briefly of proposing to Eliza before acknowledging his current state makes such thoughts absurd.
+Eliza, fearing Marie might ensure her baby is stillborn on Étienne's orders, orchestrates a dramatic escape during labor. She sends Brigitte to fetch Princess Eleanor, then deliberately sets fire to the bed canopy using a candle, causing Marie and the midwife to flee in panic. As smoke fills the room, Brigitte heroically returns and drags Eliza on her mattress through the gallery to Eleanor's chamber, where German midwife Frau Heppner delivers the baby safely. Eliza reflects on religion's role in restraining vice rather than creating virtue, trusting Eleanor despite not knowing her well. She allows Eleanor to take the baby while she recovers at Huygens's house, circulating a cover story that the child is a Palatinate orphan. Eliza reveals the shocking truth: Bonaventure Rossignol, the King's cryptanalyst who rescued her during the Rhine campaign, is the baby's actual father, not Étienne—explaining why the child lacks Arcachon deformities and why she writes openly despite knowing her letters are intercepted.
 
 
 ## Summary 77: Words 152001-154000
