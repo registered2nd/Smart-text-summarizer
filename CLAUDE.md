@@ -7,7 +7,7 @@ This project processes EPUB books (specifically Neal Stephenson's Quicksilver tr
 Quicksilver Book One: COMPLETED ✓
 - Total: 237,612 words divided into 119 chunks
 - Narrative Summaries: 79 completed (chunks 80-119 are appendices)
-- Output Directory: `/home/agentcode/text summaries/output/quicksilver/book_one/`
+- Output Directory: `/home/agentcode/text summaries/output/books/quicksilver/book_one/`
 
 ## Key Scripts and Their Purposes
 
@@ -22,13 +22,13 @@ python scripts/extract_book_section.py "Neal Stephenson - Quicksilver.epub" \
 ### 2. create_chunks.py
 Splits text into 2000-word chunks with smart merging of small final chunks.
 ```python
-python3 create_chunks.py input.txt output/quicksilver/book_one/chunks/all_chunks.txt --chunk-size 2000
+python3 create_chunks.py input.txt output/books/[book_name]/chunks/all_chunks.txt --chunk-size 2000
 ```
 
 ### 3. extract_chunks_batch.py
 **CRITICAL FOR LARGE FILES**: Extracts individual chunks when main file exceeds 256KB.
 ```python
-python3 extract_chunks_batch.py output/quicksilver/book_one/chunks/all_chunks.txt 51 60
+python3 extract_chunks_batch.py output/books/quicksilver/book_one/chunks/all_chunks.txt 51 60
 ```
 
 ### 4. format_output.py
@@ -45,7 +45,7 @@ python scripts/format_output.py -s summaries.txt -t "Quicksilver - Book One" \
 ### Quick Reference - Validated Process:
 1. **Extract ALL chunks first**:
    ```bash
-   python3 extract_chunks_batch.py output/quicksilver/book_one/chunks/all_chunks.txt 1 119
+   python3 extract_chunks_batch.py output/books/[book_name]/chunks/all_chunks.txt 1 119
    ```
 
 2. **Process in batches with validation**:
@@ -81,18 +81,20 @@ text summaries/
 ├── books/                         # Source EPUB files
 ├── scripts/                       # Python processing scripts (deprecated)
 ├── output/
-│   └── quicksilver/
-│       ├── book_one/
-│       │   ├── chunks/
-│       │   │   └── all_chunks.txt      # Original 2000-word chunks
-│       │   ├── summaries/
-│       │   │   └── all_summaries.txt   # 140-160 word summaries
-│       │   └── formatted/
-│       │       ├── book_one.html       # Formatted HTML output
-│       │       ├── book_one.md         # Formatted Markdown output
-│       │       └── book_one.txt        # Formatted plain text output
-│       ├── book_two/              # (Future)
-│       └── book_three/            # (Future)
+│   └── books/                     # All processed books
+│       ├── quicksilver/
+│       │   ├── book_one/
+│       │   │   ├── chunks/
+│       │   │   │   └── all_chunks.txt      # Original 2000-word chunks
+│       │   │   ├── summaries/
+│       │   │   │   └── all_summaries.txt   # 140-160 word summaries
+│       │   │   └── formatted/
+│       │   │       ├── book_one.html       # Formatted HTML output
+│       │   │       ├── book_one.md         # Formatted Markdown output
+│       │   │       └── book_one.txt        # Formatted plain text output
+│       │   ├── book_two/          # (Future)
+│       │   └── book_three/        # (Future)
+│       └── [other_books]/         # Same structure for other books
 └── CLAUDE.md                      # This file
 ```
 

@@ -1,5 +1,7 @@
 # Quicksilver Text Summaries
 
+Neal Stephenson's Quicksilver trilogy processed into summaries.
+
 ## Structure
 
 ```
