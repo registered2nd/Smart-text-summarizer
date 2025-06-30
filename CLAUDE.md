@@ -3,11 +3,11 @@
 ## Project Overview
 This project processes EPUB books (specifically Neal Stephenson's Quicksilver trilogy) by extracting specific sections, creating 2000-word chunks, and generating 140-160 word summaries for each chunk.
 
-## Current Task
-Processing Quicksilver Book One: 237,612 words divided into 119 chunks
-- Completed: Summaries 1-50
-- In Progress: Summaries 51-119
-- Output Directory: `/home/agentcode/text summaries/output/book1_reprocessed/`
+## Current Status
+Quicksilver Book One: COMPLETED ✓
+- Total: 237,612 words divided into 119 chunks
+- Narrative Summaries: 79 completed (chunks 80-119 are appendices)
+- Output Directory: `/home/agentcode/text summaries/output/quicksilver/book_one/`
 
 ## Key Scripts and Their Purposes
 
@@ -22,13 +22,13 @@ python scripts/extract_book_section.py "Neal Stephenson - Quicksilver.epub" \
 ### 2. create_chunks.py
 Splits text into 2000-word chunks with smart merging of small final chunks.
 ```python
-python scripts/create_chunks.py input.txt output_chunks.txt --chunk-size 2000
+python3 create_chunks.py input.txt output/quicksilver/book_one/chunks/all_chunks.txt --chunk-size 2000
 ```
 
 ### 3. extract_chunks_batch.py
 **CRITICAL FOR LARGE FILES**: Extracts individual chunks when main file exceeds 256KB.
 ```python
-python scripts/extract_chunks_batch.py quicksilver_book_one_chunks.txt 51 60
+python3 extract_chunks_batch.py output/quicksilver/book_one/chunks/all_chunks.txt 51 60
 ```
 
 ### 4. format_output.py
@@ -45,7 +45,7 @@ python scripts/format_output.py -s summaries.txt -t "Quicksilver - Book One" \
 ### Quick Reference - Validated Process:
 1. **Extract ALL chunks first**:
    ```bash
-   python scripts/extract_chunks_batch.py quicksilver_book_one_chunks.txt 1 119
+   python3 extract_chunks_batch.py output/quicksilver/book_one/chunks/all_chunks.txt 1 119
    ```
 
 2. **Process in batches with validation**:
@@ -57,16 +57,12 @@ python scripts/format_output.py -s summaries.txt -t "Quicksilver - Book One" \
 
 3. **Never append directly to main file without validation!**
 
-### Known Issues in Current File:
-- Summaries 5 & 6 are duplicated after summary 18  
-- Contains "EOF < /dev/null" error markers
-- Summary 70 is incomplete/malformed
-- Summaries 61 and 71 are missing entirely
-- Total: 77 unique summaries instead of expected 90
+### Book One Status: COMPLETED ✓
+- All 79 narrative summaries completed
+- Duplicates removed and validated
+- Chunks 80-119 contain appendices (not narrative content)
 
-**Status**: Need to regenerate summaries 61, 70, 71, and continue with 91-119
-
-See `UPDATED_PROCESSING_METHOD.md` for complete validated workflow.
+See `UPDATED_PROCESSING_METHOD.md` for the validated workflow used.
 
 ## Summary Format Requirements
 
@@ -83,13 +79,20 @@ Word count: [140-160]
 ```
 text summaries/
 ├── books/                         # Source EPUB files
-├── scripts/                       # Python processing scripts
+├── scripts/                       # Python processing scripts (deprecated)
 ├── output/
-│   └── book1_reprocessed/        # Current working directory
-│       ├── individual_chunks/     # Extracted chunk files
-│       ├── quicksilver_book_one_chunks.txt    # All chunks (1.3MB - too large!)
-│       ├── quicksilver_book_one_summaries.txt # Growing summaries file
-│       └── quicksilver_book_one_final.*       # Final formatted outputs
+│   └── quicksilver/
+│       ├── book_one/
+│       │   ├── chunks/
+│       │   │   └── all_chunks.txt      # Original 2000-word chunks
+│       │   ├── summaries/
+│       │   │   └── all_summaries.txt   # 140-160 word summaries
+│       │   └── formatted/
+│       │       ├── book_one.html       # Formatted HTML output
+│       │       ├── book_one.md         # Formatted Markdown output
+│       │       └── book_one.txt        # Formatted plain text output
+│       ├── book_two/              # (Future)
+│       └── book_three/            # (Future)
 └── CLAUDE.md                      # This file
 ```
 
