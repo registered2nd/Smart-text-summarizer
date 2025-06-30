@@ -40,20 +40,33 @@ python scripts/format_output.py -s summaries.txt -t "Quicksilver - Book One" \
 
 ## Handling Large Files (CRITICAL!)
 
-When chunks file > 256KB (Read tool limit):
+⚠️ **WARNING: The old method led to duplicate summaries!** See UPDATED_PROCESSING_METHOD.md for the validated approach.
 
-1. **Extract chunks in batches**:
+### Quick Reference - Validated Process:
+1. **Extract ALL chunks first**:
    ```bash
-   python scripts/extract_chunks_batch.py quicksilver_book_one_chunks.txt 51 60
-   ```
-   This creates: `individual_chunks/chunk51.txt` through `chunk60.txt`
-
-2. **Read individually**:
-   ```
-   Read: /home/agentcode/text summaries/output/book1_reprocessed/individual_chunks/chunk51.txt
+   python scripts/extract_chunks_batch.py quicksilver_book_one_chunks.txt 1 119
    ```
 
-3. **Never use Bash to cat large files** - triggers approval prompts every ~2000 words
+2. **Process in batches with validation**:
+   - Read chunks in sequence
+   - Validate chunk numbers match
+   - Check for duplicates/gaps
+   - Write to temporary file first
+   - Only append after validation passes
+
+3. **Never append directly to main file without validation!**
+
+### Known Issues in Current File:
+- Summaries 5 & 6 are duplicated after summary 18  
+- Contains "EOF < /dev/null" error markers
+- Summary 70 is incomplete/malformed
+- Summaries 61 and 71 are missing entirely
+- Total: 77 unique summaries instead of expected 90
+
+**Status**: Need to regenerate summaries 61, 70, 71, and continue with 91-119
+
+See `UPDATED_PROCESSING_METHOD.md` for complete validated workflow.
 
 ## Summary Format Requirements
 
