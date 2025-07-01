@@ -4,66 +4,58 @@
 This project processes EPUB books by extracting specific sections, creating 2000-word chunks, and generating 140-160 word summaries for each chunk. Optimized for use with Claude Code for efficient batch processing and summary generation.
 
 ## Current Status
-Quicksilver Book One: COMPLETED ✓
-- Total: 138,663 words divided into 69 chunks (corrected from initial parsing error)
-- All 69 summaries completed
-- Output Directory: `/home/agentcode/text summaries/output/books/quicksilver/book_one_corrected/`
-- Note: Original extraction had file sorting error that scrambled narrative order - now fixed using natural_sort_key function
+Ready for processing any text content:
+- Core system validated and functional
+- All scripts optimized for Claude Code integration
+- Documentation complete
+- Example workflow tested and proven
 
 ## Key Scripts and Their Purposes
 
-### 1. extract_book_section.py
-Universal EPUB section extractor using content markers instead of line numbers.
+### 1. extract_book_section_fixed.py
+Universal EPUB section extractor using content markers with proper file sorting.
 ```python
-python scripts/extract_book_section.py "Neal Stephenson - Quicksilver.epub" \
-    --start-markers "Boston Common" "OCTOBER 12, 1713" \
-    --end-markers "BOOK TWO" "King of the Vagabonds"
+python scripts/extract_book_section_fixed.py "book.epub" \
+    --start-markers "Chapter 1" "Beginning text" \
+    --end-markers "Chapter 2" "Ending text" \
+    -o extracted_text.txt
 ```
 
 ### 2. create_chunks.py
 Splits text into 2000-word chunks with smart merging of small final chunks.
 ```python
-python3 create_chunks.py input.txt output/books/[book_name]/chunks/all_chunks.txt --chunk-size 2000
+python3 create_chunks.py input.txt output_chunks.txt --chunk-size 2000
 ```
 
 ### 3. extract_chunks_batch.py
 **CRITICAL FOR LARGE FILES**: Extracts individual chunks when main file exceeds 256KB.
 ```python
-python3 extract_chunks_batch.py output/books/quicksilver/book_one/chunks/all_chunks.txt 51 60
+python3 extract_chunks_batch.py all_chunks.txt 1 10
 ```
 
 ### 4. format_output.py
 Generates HTML, Markdown, and text output files from summaries.
 ```python
-python scripts/format_output.py -s summaries.txt -t "Quicksilver - Book One" \
-    -a "Neal Stephenson" -o quicksilver_book_one_final -f all
+python format_output.py -s summaries.txt -t "Book Title" \
+    -a "Author Name" -o output_name -f all
 ```
 
 ## Handling Large Files (CRITICAL!)
 
-⚠️ **WARNING: The old method led to duplicate summaries!** See UPDATED_PROCESSING_METHOD.md for the validated approach.
-
-### Quick Reference - Validated Process:
-1. **Extract ALL chunks first**:
+### Recommended Process with Claude Code:
+1. **Extract individual chunks when main file >256KB**:
    ```bash
-   python3 extract_chunks_batch.py output/books/[book_name]/chunks/all_chunks.txt 1 119
+   python3 extract_chunks_batch.py all_chunks.txt 1 50
    ```
 
-2. **Process in batches with validation**:
-   - Read chunks in sequence
-   - Validate chunk numbers match
-   - Check for duplicates/gaps
+2. **Process in batches with Claude Code Task tool**:
+   - Read chunks in sequence using Task tool for parallel processing
+   - Validate chunk numbers match expected sequence
+   - Check for duplicates/gaps in summaries
    - Write to temporary file first
    - Only append after validation passes
 
-3. **Never append directly to main file without validation!**
-
-### Book One Status: COMPLETED ✓
-- All 69 summaries completed (corrected count)
-- Files properly ordered using numerical sorting
-- Complete formatted output available in book_one_corrected/formatted/
-
-See `UPDATED_PROCESSING_METHOD.md` for the validated workflow used.
+3. **Always validate before appending to avoid duplicates!**
 
 ## Summary Format Requirements
 
@@ -94,83 +86,50 @@ This system is optimized for use with Claude Code, which provides:
 
 ## File Structure
 ```
-text summaries/
-├── books/                         # Source EPUB files
-├── scripts/                       # Python processing scripts (deprecated)
-├── output/
-│   └── books/                     # All processed books
-│       ├── quicksilver/
-│       │   ├── book_one/
-│       │   │   ├── chunks/
-│       │   │   │   └── all_chunks.txt      # Original 2000-word chunks
-│       │   │   ├── summaries/
-│       │   │   │   └── all_summaries.txt   # 140-160 word summaries
-│       │   │   └── formatted/
-│       │   │       ├── book_one.html       # Formatted HTML output
-│       │   │       ├── book_one.md         # Formatted Markdown output
-│       │   │       └── book_one.txt        # Formatted plain text output
-│       │   ├── book_two/          # (Future)
-│       │   └── book_three/        # (Future)
-│       └── [other_books]/         # Same structure for other books
-│   └── obsidian/                  # Obsidian-enhanced versions
-│       ├── Book One.md            # Enhanced with wiki links
-│       ├── Character Index.md     # Character frequency overview
-│       └── characters/            # Individual character pages
-└── CLAUDE.md                      # This file
+text-summarizer/
+├── scripts/
+│   └── extract_book_section_fixed.py    # EPUB extraction with proper sorting
+├── create_chunks.py                     # Universal text chunking
+├── extract_chunks_batch.py              # Individual chunk extraction
+├── format_output.py                     # Multi-format output generation
+├── process_book.py                      # Workflow orchestrator
+├── output/                              # Generated content (git-ignored)
+│   └── [your_projects]/                 # Project-specific outputs
+├── .gitignore                          # Excludes output and source files
+├── README.md                           # System documentation
+└── CLAUDE.md                           # Claude Code integration guide
 ```
 
-## Obsidian Integration
+## Example Workflow
 
-Due to Windows file watching limitations with WSL paths, Obsidian files are maintained at:
-- **Windows Path**: `C:\ObsidianVaults\Quicksilver`
-- **WSL Access**: `/mnt/c/ObsidianVaults/Quicksilver`
-
-This allows:
-- Windows Obsidian to work with full file watching
-- WSL scripts to read/write via `/mnt/c/` path
-- No sync issues or EISDIR errors
-
-To update Obsidian content from WSL:
+### 1. Extract text from source
 ```bash
-cp -r output/obsidian/* /mnt/c/ObsidianVaults/Quicksilver/
+# For EPUB files
+python scripts/extract_book_section_fixed.py book.epub \
+    --start-markers "Chapter 1" --end-markers "Epilogue" -o extracted.txt
+
+# For plain text, just use your .txt file directly
 ```
 
-## Workflow for Continuing Summaries
+### 2. Create chunks
+```bash
+python create_chunks.py extracted.txt chunks.txt -s 2000 -f numbered
+```
 
-1. Extract next batch of chunks:
-   ```bash
-   python /home/agentcode/text summaries/scripts/extract_chunks_batch.py \
-       quicksilver_book_one_chunks.txt 51 60
-   ```
+### 3. Generate summaries with Claude Code
+```
+"Read chunks 1-10 and create 140-160 word summaries for each"
+```
 
-2. Read each chunk:
-   ```
-   Read: individual_chunks/chunk51.txt
-   ```
+### 4. Format final output
+```bash
+python format_output.py -s summaries.txt -t "Book Title" -a "Author" -o final_output -f all
+```
 
-3. Write summary to temporary file
+## Tips for Success
 
-4. Append to main summaries:
-   ```bash
-   cat new_summaries.txt >> quicksilver_book_one_summaries.txt
-   ```
-
-5. Every 10-20 summaries, generate progress output:
-   ```bash
-   python /home/agentcode/text summaries/scripts/format_output.py \
-       -s quicksilver_book_one_summaries.txt \
-       -t "Quicksilver - Book One" -a "Neal Stephenson" \
-       -o quicksilver_book_one_progress -f all
-   ```
-
-## Important Notes
-
-- Book One starts: "Boston Common OCTOBER 12, 1713" (Enoch meeting Ben Franklin)
-- Book One ends: "sailing large before a quartering wind" (Minerva escaping Blackbeard)
-- Total: 69 chunks, each ~2000 words = 138,663 words total
-- Summaries must be 140-160 words each
-- The fixed extraction script (extract_book_section_fixed.py) uses numerical sorting to maintain proper file order
-- Use create_chunks.py with -f numbered option to create individual chunk files for easier reading
-
-## Next Steps
-Book One is complete. Ready to proceed with Book Two: "King of the Vagabonds"
+- Always use Claude Code's Task tool for batch processing
+- Create individual chunk files when main file exceeds 256KB
+- Validate summaries before appending to avoid duplicates
+- Use TodoWrite to track progress on large projects
+- Test with small examples before processing entire books
