@@ -123,7 +123,7 @@ Word count: [140-160]
 
 ## Version History
 
-- **v1.0** (2024): Initial release with core functionality
+- **v1.0** (2025): Initial release with core functionality
   - Fixed numerical sorting bug in EPUB extraction
   - Validated workflow for processing long texts
   - Integrated Claude Code optimization
