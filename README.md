@@ -1,22 +1,23 @@
-# EPUB Text Summarizer v1.0
+# Text Chunking & Summarization System v1.0
 
-A comprehensive system for extracting text from EPUB books, creating manageable chunks, and generating structured summaries.
+A comprehensive system for processing any text content - including EPUB books, plain text, markdown, and other formats - into manageable chunks with structured summaries.
 
 ## Overview
 
-This system processes EPUB files by:
-1. Extracting specific sections using content markers
+This system processes text content by:
+1. Extracting sections from various sources (EPUB, TXT, MD, etc.)
 2. Dividing text into 2000-word chunks with intelligent merging
 3. Facilitating creation of 140-160 word summaries per chunk
 4. Generating formatted output in HTML, Markdown, and plain text
 
 ## Key Features
 
-- **Content-based extraction**: Uses text markers instead of line numbers for reliable extraction
+- **Universal text processing**: Works with any text format - EPUB, TXT, MD, or pasted content
+- **Content-based extraction**: Uses text markers for reliable section extraction
 - **Smart chunking**: Automatically merges small final chunks to maintain consistency
 - **Flexible output formats**: HTML with navigation, Markdown, and plain text
 - **Large file handling**: Extracts individual chunks when files exceed tool limits
-- **Natural sorting**: Fixed extraction script properly orders numbered files
+- **EPUB support**: Includes specialized script with proper numerical file sorting
 
 ## System Requirements
 
@@ -26,7 +27,7 @@ This system processes EPUB files by:
 
 ## Core Scripts
 
-### 1. `extract_book_section_fixed.py`
+### 1. `extract_book_section_fixed.py` (EPUB-specific)
 Extracts specific sections from EPUB files with proper numerical file sorting.
 
 ```bash
@@ -36,12 +37,15 @@ python scripts/extract_book_section_fixed.py "book.epub" \
     -o output.txt
 ```
 
-### 2. `create_chunks.py`
-Splits text into chunks of specified word count.
+**Note**: This is the only EPUB-specific script. All other scripts work with any text format.
+
+### 2. `create_chunks.py` (Universal)
+Splits any text file into chunks of specified word count.
 
 ```bash
 python create_chunks.py input.txt -o output_chunks.txt -s 2000 -f standard
 # Use -f numbered to create individual chunk files
+# Works with .txt, .md, or any plain text file
 ```
 
 ### 3. `extract_chunks_batch.py`
