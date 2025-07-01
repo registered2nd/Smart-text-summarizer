@@ -7,8 +7,18 @@ import sys
 
 def extract_chunks(chunks_file, start_num, end_num):
     """Extract chunks from start_num to end_num"""
+    import os
+    
     with open(chunks_file, 'r') as f:
         content = f.read()
+    
+    # Determine output directory based on input file path
+    chunks_dir = os.path.dirname(chunks_file)
+    output_dir = os.path.join(chunks_dir, "individual_chunks")
+    
+    # Create output directory if it doesn't exist
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
     
     for i in range(start_num, end_num + 1):
         # Find the chunk
@@ -17,7 +27,7 @@ def extract_chunks(chunks_file, start_num, end_num):
         
         if match:
             chunk_content = match.group(0).strip()
-            output_file = f"output/book1_reprocessed/individual_chunks/chunk{i}.txt"
+            output_file = os.path.join(output_dir, f"chunk{i}.txt")
             
             with open(output_file, 'w') as out:
                 out.write(chunk_content)

@@ -1,13 +1,14 @@
 # Text Summaries Project - CLAUDE.md
 
 ## Project Overview
-This project processes EPUB books (specifically Neal Stephenson's Quicksilver trilogy) by extracting specific sections, creating 2000-word chunks, and generating 140-160 word summaries for each chunk.
+This project processes EPUB books by extracting specific sections, creating 2000-word chunks, and generating 140-160 word summaries for each chunk. Optimized for use with Claude Code for efficient batch processing and summary generation.
 
 ## Current Status
 Quicksilver Book One: COMPLETED ✓
-- Total: 237,612 words divided into 119 chunks
-- Narrative Summaries: 79 completed (chunks 80-119 are appendices)
-- Output Directory: `/home/agentcode/text summaries/output/books/quicksilver/book_one/`
+- Total: 138,663 words divided into 69 chunks (corrected from initial parsing error)
+- All 69 summaries completed
+- Output Directory: `/home/agentcode/text summaries/output/books/quicksilver/book_one_corrected/`
+- Note: Original extraction had file sorting error that scrambled narrative order - now fixed using natural_sort_key function
 
 ## Key Scripts and Their Purposes
 
@@ -58,9 +59,9 @@ python scripts/format_output.py -s summaries.txt -t "Quicksilver - Book One" \
 3. **Never append directly to main file without validation!**
 
 ### Book One Status: COMPLETED ✓
-- All 79 narrative summaries completed
-- Duplicates removed and validated
-- Chunks 80-119 contain appendices (not narrative content)
+- All 69 summaries completed (corrected count)
+- Files properly ordered using numerical sorting
+- Complete formatted output available in book_one_corrected/formatted/
 
 See `UPDATED_PROCESSING_METHOD.md` for the validated workflow used.
 
@@ -74,6 +75,22 @@ Word count: [140-160]
 
 ```
 (Note the blank line after each summary)
+
+## Claude Code Integration
+
+This system is optimized for use with Claude Code, which provides:
+- **Parallel Processing**: Read multiple chunks simultaneously using Task tool
+- **Memory Management**: Handle files exceeding Read tool's 256KB limit
+- **Workflow Automation**: Track progress with TodoWrite/TodoRead tools
+- **Natural Language Interface**: Create summaries through conversation
+- **Validation**: Built-in checking for duplicates and gaps
+
+### Best Practices with Claude Code:
+1. Use Task tool for batch operations (reading 10+ chunks)
+2. Create individual chunk files when main file >256KB
+3. Validate summaries before appending to avoid duplicates
+4. Use TodoWrite to track multi-step processes
+5. Let Claude Code handle the summarization while you review
 
 ## File Structure
 ```
@@ -95,7 +112,27 @@ text summaries/
 │       │   ├── book_two/          # (Future)
 │       │   └── book_three/        # (Future)
 │       └── [other_books]/         # Same structure for other books
+│   └── obsidian/                  # Obsidian-enhanced versions
+│       ├── Book One.md            # Enhanced with wiki links
+│       ├── Character Index.md     # Character frequency overview
+│       └── characters/            # Individual character pages
 └── CLAUDE.md                      # This file
+```
+
+## Obsidian Integration
+
+Due to Windows file watching limitations with WSL paths, Obsidian files are maintained at:
+- **Windows Path**: `C:\ObsidianVaults\Quicksilver`
+- **WSL Access**: `/mnt/c/ObsidianVaults/Quicksilver`
+
+This allows:
+- Windows Obsidian to work with full file watching
+- WSL scripts to read/write via `/mnt/c/` path
+- No sync issues or EISDIR errors
+
+To update Obsidian content from WSL:
+```bash
+cp -r output/obsidian/* /mnt/c/ObsidianVaults/Quicksilver/
 ```
 
 ## Workflow for Continuing Summaries
@@ -129,11 +166,11 @@ text summaries/
 ## Important Notes
 
 - Book One starts: "Boston Common OCTOBER 12, 1713" (Enoch meeting Ben Franklin)
-- Book One ends: Before "BOOK TWO King of the Vagabonds"
-- Total: 119 chunks, each ~2000 words
+- Book One ends: "sailing large before a quartering wind" (Minerva escaping Blackbeard)
+- Total: 69 chunks, each ~2000 words = 138,663 words total
 - Summaries must be 140-160 words each
-- Read EVERY chunk before summarizing (no skipping!)
-- The chunks file is too large for Read tool - MUST use individual extraction
+- The fixed extraction script (extract_book_section_fixed.py) uses numerical sorting to maintain proper file order
+- Use create_chunks.py with -f numbered option to create individual chunk files for easier reading
 
 ## Next Steps
-Continue with chunks 51-119 to complete Book One summaries.
+Book One is complete. Ready to proceed with Book Two: "King of the Vagabonds"
